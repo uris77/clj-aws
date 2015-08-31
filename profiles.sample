@@ -1,0 +1,4 @@
+{:dev-env-vars {:env {:aws-key "YOUR AWS KEY"
+                      :aws-secret "YOUR AWS SECRET"
+                      :aws-region "YOUR REGION"}}}
+
