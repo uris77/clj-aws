@@ -19,7 +19,6 @@
   [asg-name]
   (go
     (let [resp (<! (http/get (str "/api/ec2?asg=" asg-name) {"accept" "application/json"}))]
-      (.log js/console "ec2: " (:body resp))
       (dispatch [:received-ec2-instances (:body resp)]))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -18,10 +18,8 @@
 (defn app-routes
   []
   (secretary/set-config! :prefix "#")
-  (.log js/console "Setting up routes...")
   (defroute "/"
     []
-    (.log js/console "In ..")
     (re-frame/dispatch [:get-asgs]))
 
   (hook-browser-navigation!))
