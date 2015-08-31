@@ -5,7 +5,7 @@ AWS web interface.
 
 ## Configuration
 Create a `profiles.clj` file in the same format as `profiles.sample.clj` and add
-your aws key and secret. __DO NOT COMMIT__ this file to the git.
+your aws key and secret. __DO NOT COMMIT__ this file to the git repo.
 
 ## Running
 Start Cider in emacs then switch to the `repl` namespace and run `(reset)`.
