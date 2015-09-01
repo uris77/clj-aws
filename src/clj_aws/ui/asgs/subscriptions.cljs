@@ -12,3 +12,13 @@
  (fn [app-state _]
    (reaction (:vpcs @app-state))))
 
+(register-sub
+ :loading-asgs?
+ (fn [app-state _]
+   (reaction (:loading-asgs? @app-state))))
+
+(register-sub
+ :loading-vpcs?
+ (fn [app-state _]
+   (reaction (:loading-vpcs? @app-state))))
+

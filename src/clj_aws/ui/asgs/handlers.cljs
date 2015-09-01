@@ -5,7 +5,9 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (def app-db {:asgs []
-             :vpcs []})
+             :vpcs []
+             :loading-vpcs? false
+             :loading-asgs? true})
 
 (defn fetch-asgs
   "Fetch all asgs from the server."
@@ -39,17 +41,21 @@
 (register-handler
  :received-asgs
  (fn [app-state [_ asgs]]
-   (assoc app-state :asgs asgs)))
+   (-> app-state
+       (assoc :loading-asgs? false)
+       (assoc :asgs asgs))))
 
 (register-handler
  :fetch-ec2-instances
  (fn [app-state [_ asg-name]]
    (fetch-ec2-instances asg-name)
-   app-state))
+   (assoc app-state :loading-vpcs? true)))
 
 (register-handler
  :received-ec2-instances
  (fn [app-state [_ ec2-instances]]
-   (assoc app-state :vpcs ec2-instances)))
+   (-> app-state
+       (assoc :loading-vpcs? false)
+       (assoc :vpcs ec2-instances))))
 
 
