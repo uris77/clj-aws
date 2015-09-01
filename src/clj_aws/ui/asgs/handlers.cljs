@@ -6,6 +6,7 @@
 
 (def app-db {:asgs []
              :vpcs []
+             :selected-asg ""
              :loading-vpcs? false
              :loading-asgs? true})
 
@@ -48,8 +49,12 @@
 (register-handler
  :fetch-ec2-instances
  (fn [app-state [_ asg-name]]
-   (fetch-ec2-instances asg-name)
-   (assoc app-state :loading-vpcs? true)))
+   (when (not= asg-name (:selected-asg app-state))
+     (do
+       (fetch-ec2-instances asg-name)
+       (-> app-state
+           (assoc :selected-asg asg-name)
+           (assoc :loading-vpcs? true))))))
 
 (register-handler
  :received-ec2-instances

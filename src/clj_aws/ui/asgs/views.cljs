@@ -28,7 +28,8 @@
   []
   (let [vpcs          (subscribe [:vpcs])
         asgs          (subscribe [:asgs])
-        loading-vpcs? (subscribe [:loading-vpcs?])]
+        loading-vpcs? (subscribe [:loading-vpcs?])
+        selected-asg  (subscribe [:selected-asg])]
     (fn []
       (cond 
         (empty? @vpcs)         [:div {:class "row"}
@@ -38,6 +39,8 @@
                                 [:div.bootcards-list
                                  [:div {:class "panel panel-default"}
                                   [:div.list-group
+                                   [:div.list-group-item
+                                    [:h4.list-group-item-heading @selected-asg]]
                                    (for [vpc @vpcs]
                                      (let [instance-id (:instance-id vpc)
                                            private-dns (:private-dns-name vpc)

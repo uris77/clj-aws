@@ -22,3 +22,8 @@
  (fn [app-state _]
    (reaction (:loading-vpcs? @app-state))))
 
+(register-sub
+ :selected-asg
+ (fn [app-state _]
+   (reaction (:selected-asg @app-state))))
+
