@@ -12,15 +12,15 @@
                              [:div {:class "panel panel-default"}
                               [:div {:class "list-group"}
                                (for [asg @asgs]
-                                 (let [asg-name (first (keys asg))
-                                       instances (first (vals asg))]
+                                 (let [asg-name (:name asg)
+                                       instances (:details asg)]
                                    ^{:key asg-name} [:a {:class "list-group-item"
                                                          :href "#"
                                                          :on-click #(dispatch [:fetch-ec2-instances (name asg-name)])}
                                                      [:div {:class "row"}
                                                       [:div {:class "col-sm-6"}
                                                        [:h4 {:class "list-group-item-heading"} (name asg-name)]
-                                                       [:p {:class "list-gorup-item-text"} (str (count instances) " Instances")]]]]))]]]
+                                                       [:p {:class "list-group-item-text"} (str (count instances) " Instances")]]]]))]]]
         (true? @loading-asgs?) [:h1 "Loading ASGs....."]
         :else               [:h1 "NO ASGS AVAILABLE"]))))
 
@@ -28,20 +28,21 @@
   []
   (let [vpcs          (subscribe [:vpcs])
         asgs          (subscribe [:asgs])
-        loading-vpcs? (subscribe [:loading-vpcs?])
-        selected-asg  (subscribe [:selected-asg])]
+        loading-vpcs? (subscribe [:loading-vpcs?])]
     (fn []
       (cond 
+        (true? @loading-vpcs?) [:div.row [:h1 "Loading VPCs"]]
+
         (empty? @vpcs)         [:div {:class "row"}
                                 [:h1 (str (count @asgs) " ASGS found.")]]
-        (true? @loading-vpcs?) [:div.row [:h1 "Loading VPCs"]]
+
         :else                  [:div {:class "row"}
                                 [:div.bootcards-list
                                  [:div {:class "panel panel-default"}
                                   [:div.list-group
                                    [:div.list-group-item
-                                    [:h4.list-group-item-heading @selected-asg]]
-                                   (for [vpc @vpcs]
+                                    [:h4.list-group-item-heading (:asg @vpcs)]]
+                                   (for [vpc (:vpcs @vpcs)]
                                      (let [instance-id (:instance-id vpc)
                                            private-dns (:private-dns-name vpc)
                                            private-ip  (:private-ip-address vpc)
